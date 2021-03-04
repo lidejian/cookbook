@@ -325,8 +325,6 @@ ssh dejian@49.52.10.198
   docker inspect container_id | grep Mounts -A 20
   ```
 
-  
-
 * 删除
 
   ```python
@@ -337,6 +335,26 @@ ssh dejian@49.52.10.198
   docker rmi 容器名称:version
   docker rmi 容器ID
   ```
+
+* 配置ssh, 用vscode连接
+
+  * ![image-20210304124758978](https://i.loli.net/2021/03/04/NDpYwryEt3Im8oW.png)
+
+  * ```python
+    docker exec -it container_name /bin/bash
+    apt install -y openssh-server
+    
+    # 以下是配置自己的docker容器内的ssh服务，只需要替换new_passwd为自己的密码即可
+    mkdir /var/run/sshd
+    echo "root:new_passwd" | chpasswd
+    sed -i 's/PermitRootLogin prohibit-password/PermitRootLogin yes/' /etc/ssh/sshd_config
+    sed 's@session\s*required\s*pam_loginuid.so@session optional pam_loginuid.so@g' -i /etc/pam.d/sshd
+    ehco "export VISIBLE=now" >> /etc/profile
+    
+    service ssh restart
+    ```
+
+    
 
 ## java
 
