@@ -144,9 +144,11 @@
 
 ### pandas
 
-* 12种Numpy&Pandas高效技巧 [wechat](https://mp.weixin.qq.com/s/HBwRtnVvjPhRyDyJJkenyQ)
+* 12种Numpy&Pandas高效技巧 
 
-* 
+## numpy
+
+* 手册 https://www.numpy.org.cn/reference/
 
 ### 其他
 
@@ -541,14 +543,16 @@ tensor = torch.from_numpy(ndarray)
 
 * 标注工具
   * doccano https://github.com/doccano/doccano
+* 内网穿透
+  * https://github.com/ehang-io/nps
 
 # 资源
 
-## 工具
+## 网站
 
 * 将curl保存为代码(python等)  https://curl.trillworks.com/
 
-## 资源
+## 数据
 
 * 中文NLP数据集 https://github.com/InsaneLife/ChineseNLPCorpus
 
