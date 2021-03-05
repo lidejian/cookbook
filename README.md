@@ -36,9 +36,31 @@
   python -m ipykernel install --user --name your_env_name --display-name your_env_name
   ```
 
-## pip
+## pip&jupyter
 
 * 从txt安装包 `pip install -r requirements.txt`
+
+* jupyter 设置密码
+
+  ```python
+  # 1 浏览器打开jupyter，新建一个python文件，第一行输入：
+  from notebook.auth import passwd
+  
+  # 2 下一行输入：
+  passwd()
+  回车后提示输入密码，输入两次。
+  
+  # 哈希密码
+  # sha1:158c74966eda:9533217697d0c62f0db43414ec4e06d4072c1cecc2e97d
+  
+  # 配置
+  jupyter notebook --generate-config
+  
+  ~/.jupyter/jupyter_notebook_config.py
+  再次打开配置文件jupyter_notebook_config.py,找到c.NotebookApp.password=第三步的哈希密码，重启jupyter notebook即可
+  ```
+
+  
 
 ## 语法
 
@@ -406,6 +428,8 @@ tensor = torch.from_numpy(ndarray)
 
 * 微信总结 https://mp.weixin.qq.com/s/Z0wyl90ZAXPOSm7c8_jvug
 
+* ☆☆☆ 奇淫技巧 https://github.com/521xueweihan/git-tips
+
 * 设置当前分支为默认提交分支
 
     ```python
@@ -517,3 +541,16 @@ tensor = torch.from_numpy(ndarray)
 
 * 标注工具
   * doccano https://github.com/doccano/doccano
+
+# 资源
+
+## 工具
+
+* 将curl保存为代码(python等)  https://curl.trillworks.com/
+
+## 资源
+
+* 中文NLP数据集 https://github.com/InsaneLife/ChineseNLPCorpus
+
+
+
