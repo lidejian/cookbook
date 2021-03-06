@@ -239,6 +239,10 @@ ssh dejian@49.52.10.198
 
 * [基础语法](https://zhuanlan.zhihu.com/p/102176365)
 
+## cmd
+
+* 清空DNS缓存 `ipconfig /flushdns`
+
 ## 系统
 
 * 重启、关机
@@ -574,12 +578,16 @@ tensor = torch.from_numpy(ndarray)
 * 内网穿透
   
   * https://github.com/ehang-io/nps
+
+## vpn
+
+* 评测
+  * https://www.iszy.cc/page/bgfw/
 * clash
   * 下载 https://github.com/Fndroid/clash_for_windows_pkg/releases
   * 汉化&便携版下载 https://merlinblog.xyz/wiki/cfw.html
   * 不错的教程 https://merlinblog.xyz/wiki/api.html
   * 免费clash 节点 https://wxf2088.xyz/613.html
-  
   * 免费clash 节点 https://www.butnono.com/latest-2020-freevpn-v2ray-ss-ssr-address.html
 
 # 资源
