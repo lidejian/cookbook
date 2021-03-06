@@ -1,4 +1,5 @@
 # 目录
+
 [toc]
 
 # python
@@ -15,9 +16,10 @@
   ```python
   # 代表创建一个python3.6的环境，我们把它命名为python36
   conda create --name python36 python=3.6
-  
+  conda create -n ...
   # 查看环境
   conda info --env                               
+  conda info -e
   
    # 删除环境
   conda remove -n python36 --all       		 
@@ -60,7 +62,6 @@
   再次打开配置文件jupyter_notebook_config.py,找到c.NotebookApp.password=第三步的哈希密码，重启jupyter notebook即可
   ```
 
-  
 
 ## 语法
 
@@ -73,8 +74,6 @@
   SQ_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
   sys.path.append(SQ_DIR)
   ```
-  
-  
   
 * 执行cmd
 
@@ -164,6 +163,38 @@
   ic(plus_five(4))
   ```
   
+* 调试 pysnooper https://github.com/cool-RR/PySnooper
+
+  ```python
+  import pysnooper
+  
+  @pysnooper.snoop()
+  def number_to_bits(number):
+      if number:
+          bits = []
+          while number:
+              number, remainder = divmod(number, 2)
+              bits.insert(0, remainder)
+          return bits
+      else:
+        return [0]
+  
+  number_to_bits(6)
+  # 输出如下
+  Starting var:.. number = 6
+  15:29:11.327032 call         4 def number_to_bits(number):
+  15:29:11.327032 line         5     if number:
+  15:29:11.327032 line         6         bits = []
+  New var:....... bits = []
+  15:29:11.327032 line         7         while number:
+  15:29:11.327032 line         8             number, remainder = divmod(number, 2)
+  New var:....... remainder = 0
+  Modified var:.. number = 3
+  ....
+  ```
+  
+  
+  
 * 输出表格 prettytable  https://mp.weixin.qq.com/s/nFNCCUfgg1lSnCFMlpLaBw
 
   ```python
@@ -187,8 +218,6 @@
 # cmd下ssh直连
 ssh dejian@49.52.10.198
 ```
-
-
 
 ## cuda
 
@@ -294,8 +323,6 @@ ssh dejian@49.52.10.198
     killall -u tian
     ```
 
-    
-
 * centos 安装包
     ```powershell
     # 先运行下面
@@ -323,10 +350,7 @@ ssh dejian@49.52.10.198
   systemctl stop docker
   # 重启
   systemctl restart docker
-  
   ```
-  
-  
   
 * 镜像迁移
 
@@ -361,6 +385,10 @@ ssh dejian@49.52.10.198
   docker rmi 容器ID
   ```
 
+* docker镜像瘦身  https://github.com/docker-slim/docker-slim
+
+* gitlab 迁移  https://www.cnblogs.com/ssgeek/p/9392104.html
+
 * 配置ssh, 用vscode连接
 
   * ![image-20210304124758978](https://i.loli.net/2021/03/04/NDpYwryEt3Im8oW.png)
@@ -379,7 +407,6 @@ ssh dejian@49.52.10.198
     service ssh restart
     ```
 
-    
 
 ## java
 
@@ -542,9 +569,18 @@ tensor = torch.from_numpy(ndarray)
 ## apps
 
 * 标注工具
+  
   * doccano https://github.com/doccano/doccano
 * 内网穿透
+  
   * https://github.com/ehang-io/nps
+* clash
+  * 下载 https://github.com/Fndroid/clash_for_windows_pkg/releases
+  * 汉化&便携版下载 https://merlinblog.xyz/wiki/cfw.html
+  * 不错的教程 https://merlinblog.xyz/wiki/api.html
+  * 免费clash 节点 https://wxf2088.xyz/613.html
+  
+  * 免费clash 节点 https://www.butnono.com/latest-2020-freevpn-v2ray-ss-ssr-address.html
 
 # 资源
 
@@ -555,6 +591,3 @@ tensor = torch.from_numpy(ndarray)
 ## 数据
 
 * 中文NLP数据集 https://github.com/InsaneLife/ChineseNLPCorpus
-
-
-
