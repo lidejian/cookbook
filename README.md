@@ -38,9 +38,27 @@
   python -m ipykernel install --user --name your_env_name --display-name your_env_name
   ```
 
-## pip&jupyter
+## pip & jupyter
 
 * 从txt安装包 `pip install -r requirements.txt`
+
+* 修改源
+
+  * 临时修改
+
+  ```python
+  # -i : 指定源
+  # -U : 升级到最新版本
+  pip install -i https://pypi.tuna.tsinghua.edu.cn/simple -U funcat
+  ```
+
+  * 永久修改 https://mirror.tuna.tsinghua.edu.cn/help/pypi/
+
+  ```python
+  pip config set global.index-url https://pypi.tuna.tsinghua.edu.cn/simple
+  ```
+
+  
 
 * jupyter 设置密码
 
@@ -219,6 +237,22 @@
 ssh dejian@49.52.10.198
 ```
 
+## bash/zsh
+
+* 切换
+
+  ```
+  # 永久：（需重新登录）
+  chsh -s /bin/bash
+  chsh -s /bin/zsh
+  
+  # 临时切换：
+  bash
+  zsh
+  ```
+
+* zsh 插件 https://hufangyun.com/2017/zsh-plugin/
+
 ## cuda
 
 * 查看cuda版本
@@ -316,7 +350,7 @@ ssh dejian@49.52.10.198
   创建用户               sudo useradd xxx
   更改用户的密码     	sudo passwd xxx
   更改用户组       	  sudo chgrp jianxiang jianxiang
-  更改目录所有者     	sudo chown -R jiawei /home/jiawei
+  更改目录所有者     	sudo chown -R jiawei:jiawei /home/jiawei
   更改用户权限        	 sudo chmod 755 /home/jianxiang
   更改bash:             chsh -s /bin/bash
   ```
@@ -339,6 +373,7 @@ ssh dejian@49.52.10.198
 
   ```python
   scp test.txt dejian@49.51.10.198:/home/dejian/.bashrc
+  scp -P 3322 ...  # 添加指定端口
   ```
 
 * 定时任务：crontab https://www.runoob.com/linux/linux-comm-crontab.html
@@ -356,6 +391,12 @@ ssh dejian@49.52.10.198
   systemctl restart docker
   ```
   
+* 将用户添加到docker组
+
+  ```
+  sudo usermod -a -G docker yadong
+  ```
+
 * 镜像迁移
 
   ```python
@@ -377,6 +418,47 @@ ssh dejian@49.52.10.198
   ```python
   docker inspect container_id | grep Mounts -A 20
   ```
+
+* 从容器创建新镜像
+
+  ```
+  docker commit -a "作者" -m "提交信息" a404c6c174a2  mymysql:v1	# a4..为容器名
+  ```
+
+* 启动容器并启动相关命令
+
+  ```
+  docker exec financial /bin/bash -c "nohup sh /working/start_all.sh > nohup_out.out 2>&1 &"
+  ```
+
+* gitlab 安装
+
+  ```
+  1 # 官网： https://docs.gitlab.com/omnibus/docker/README.html
+  sudo docker run --detach \
+    --hostname gitlab.example.com \
+    --publish 8443:443 --publish 9190:9190 --publish 2222:2222 \
+    --name gitlab \
+    --restart always \
+    --volume /srv/gitlab/config:/etc/gitlab:Z \
+    --volume /srv/gitlab/logs:/var/log/gitlab:Z \
+    --volume /srv/gitlab/data:/var/opt/gitlab:Z \
+    gitlab/gitlab-ee:latest			# 指定版本号 不用最新的可以 gitlab/gitlab-ee:11.9.6-ee.0 
+  
+  2：vi   /srv/gitlab/config/gitlab.rb 修改：
+  external_url 'http://precision:9190'
+  gitlab_rails['gitlab_shell_ssh_port'] = 2222
+   
+   
+   3 用之前备份恢复  https://blog.csdn.net/foupwang/article/details/94362292
+  cd /var/opt/gitlab/backups
+  chomd 777 1561597102_2019_06_27_12.0.1_gitlab_backup.tar
+  gitlab-ctl stop unicorn
+  gitlab-ctl stop sidekiq
+  gitlab-rake gitlab:backup:restore BACKUP=备份文件编号
+  ```
+
+  
 
 * 删除
 
@@ -595,6 +677,11 @@ tensor = torch.from_numpy(ndarray)
 ## 网站
 
 * 将curl保存为代码(python等)  https://curl.trillworks.com/
+* 别人笔记
+  * https://github.com/gswyhq/hello-world/tree/df78e5fd66ea570f7019da9b1a55a2eda5f2b5d0
+  * https://github.com/SmallCao/docutment/tree/d6e6bb22970b8a50f9b22f02297ef572ab970aff
+* win10 优化
+  * https://www.coolapk.com/feed/24197481?shareKey=YTBiMGI1MWExOTU3NjA0NWUyMDQ~&shareUid=1498994&shareFrom=com.coolapk.market_11.0.2
 
 ## 数据
 
