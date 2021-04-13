@@ -83,7 +83,7 @@
 
 ## 语法
 
-* python添加目录环境
+### python添加目录环境
 
   ```python
   import os
@@ -92,16 +92,16 @@
   SQ_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
   sys.path.append(SQ_DIR)
   ```
-  
-* 执行cmd
+
+### 执行cmd
 
   ```python
   import os
   cmd = 'touch a.txt'
   os.system(cmd)
   ```
-  
-* try  except
+
+### try  except
 
   ```python
     import traceback
@@ -113,7 +113,7 @@
         logging.error( traceback.format_exc() )
   ```
 
-* 使用显卡
+### 使用显卡
 
   ```python
   import os
@@ -123,39 +123,107 @@
   CUDA_VISIBLE_DEVICES="1" python xx.py
   ```
 
-* 常用函数
+### 遍历文件夹下文件
 
-  * 遍历文件夹下文件
+  ```Python
+  def findAllFile(base):
+      for root, ds, fs in os.walk(base):
+          for f in fs:
+              fullname = os.path.join(root, f)
+              yield fullname
+              
+  # 调用：
+  base = '/working/financial_news_insight_system/data/history_data/data1'
+  for i in findAllFile(base):
+      print(i)
+  ```
 
-    ```Python
-    def findAllFile(base):
-        for root, ds, fs in os.walk(base):
-            for f in fs:
-                fullname = os.path.join(root, f)
-                yield fullname
-                
-    # 调用：
-    base = '/working/financial_news_insight_system/data/history_data/data1'
-    for i in findAllFile(base):
-        print(i)
-    ```
-    
-  * generator合并
+### generator合并
+
+  ```python
+  from itertools import chain
+  def gen1():
+      for item in 'abcdef':
+          yield item
   
-    ```python
-    from itertools import chain
-    def gen1():
-        for item in 'abcdef':
-            yield item
-    
-    def gen2():
-        for item in '123456':
-            yield item
-            
-    gen = chain(gen1(), gen2())
-    for i in gen:
-        print(i)
-    ```
+  def gen2():
+      for item in '123456':
+          yield item
+          
+  gen = chain(gen1(), gen2())
+  for i in gen:
+      print(i)
+  ```
+
+### 操作excel
+
+```python
+# 写excel
+import xlwt
+# 写excel
+workbook = xlwt.Workbook(encoding='utf-8')
+worksheet = workbook.add_sheet('Sheet1')
+
+# 写入表头
+worksheet.write(0, 0, '标题')
+worksheet.write(0, 1, '时间')
+
+worksheet.write(excel_line, 0, news.title) # 写 行、列、内容
+
+# 保存excel
+workbook.save(filename.replace('.txt', '.xls'))
+
+
+# 读excel
+import xlrd
+book = xlrd.open_workbook('data.xlsx')
+sheet1 = book.sheets()[0]
+nrows = sheet1.nrows
+print('表格总行数',nrows)
+
+ncols = sheet1.ncols
+print('表格总列数',ncols)
+
+row3_values = sheet1.row_values(2)
+print('第3行值',row3_values)
+
+col3_values = sheet1.col_values(2)
+print('第3列值',col3_values)
+
+cell_3_3 = sheet1.cell(2,2).value
+print('第3行第3列的单元格的值：',cell_3_3)
+
+
+#大文件（65536行之外）
+import openpyxl
+def readExel():
+    filename = r'D:\test.xlsx'
+    inwb = openpyxl.load_workbook(filename)  # 读文件
+    sheetnames = inwb.get_sheet_names()  # 获取读文件中所有的sheet，通过名字的方式
+    ws = inwb.get_sheet_by_name(sheetnames[0])  # 获取第一个sheet内容
+
+    # 获取sheet的最大行数和列数
+    rows = ws.max_row
+    cols = ws.max_column
+    for r in range(1,rows):
+        for c in range(1,cols):
+            print(ws.cell(r,c).value)
+        if r==10:
+            break
+
+def writeExcel():
+    outwb = openpyxl.Workbook()  # 打开一个将写的文件
+    outws = outwb.create_sheet(index=0)  # 在将写的文件创建sheet
+    for row in range(1,70000):
+        for col in range(1,4):
+            outws.cell(row, col).value = row*2  # 写文件
+        print(row)
+    saveExcel = "D:\\test2.xlsx"
+    outwb.save(saveExcel)  # 一定要记得保存
+
+```
+
+
 
 ## 常用三方库
 
@@ -236,6 +304,78 @@
 # cmd下ssh直连
 ssh dejian@49.52.10.198
 ```
+
+## 命令
+
+```
+less 替换more， 支持上下，PgUp, PgDn
+
+Ctrl + u 清空输入命令
+Ctrl + l 清屏
+
+chmod [ugoa] [+-=] [rwx] # user/group/other/all
+
+cp [选项]
+	-r 递归整个目录
+	-p 保持源文件属性不变
+	
+	-a 递归整个目录，并将权限也复制过来
+	-f 强制覆盖相同文件、目录
+	
+find [查找范围] [查找条件]
+	查找条件：	 -name: 按文件名
+
+cat [-n 输出行号] 显示文件全部内容，将几个文件合并为一个 cat xx.txt xx2.file > file
+
+wc Word Count 统计行号、单词数量
+	行数（貌似是从0编号）、单词数、字节
+
+grep [选项] 查找条件 目标文件   ：在文件中搜索匹配的字符并输出
+	-i 忽略大小写
+	-v 反转查找， 输入与查找不匹配的。
+	
+	查找条件：
+		“^...” 以...开头
+		“...$” 以$结尾
+		
+| 管道，将前一个的输出作为下个的输入，可以无限套娃
+	find . -name text.txt | cat -n 	在当前目录下查找，将结果编号显示
+	ln -l /etc/ | less		翻页形式查看/etc
+	cat /etc/passwd | grep '^sshd' 查找/etc/passwd文件中以sshd开头的行
+	ls /user/bin | wc -l  统计/user/bin目录下文件的个数
+```
+
+* 重定向
+
+  ```
+  输入重定向： 	<
+  输出重定向： 	>
+  			>> 追加的方式
+  错误重定向：	2>	
+  			2>>
+  输出与错误组合重定向 &>
+  ```
+
+* 压缩解压缩
+
+  ```
+  .tar
+  	解包 tar -svf FileName.tar
+  	打包 tar -cvf FileName.tar DirName
+  	
+  .tar.gz
+  	解压 tar -xzvf FileName.tar.gz
+  	压缩 tar -czvf FileName.tar.gz DirName
+  
+  .zip
+  	解压 unzip FileName.zip
+  	压缩 zip FileName.zip DirName
+  
+  .rar
+  	解压 rar a FileName.rar
+  ```
+
+  
 
 ## bash/zsh
 
@@ -488,7 +628,7 @@ ssh dejian@49.52.10.198
     echo "root:new_passwd" | chpasswd
     sed -i 's/PermitRootLogin prohibit-password/PermitRootLogin yes/' /etc/ssh/sshd_config
     sed 's@session\s*required\s*pam_loginuid.so@session optional pam_loginuid.so@g' -i /etc/pam.d/sshd
-    ehco "export VISIBLE=now" >> /etc/profile
+    echo "export VISIBLE=now" >> /etc/profile
     
     service ssh restart
     ```
@@ -545,13 +685,21 @@ tensor = torch.from_numpy(ndarray)
 
 * ☆☆☆ 奇淫技巧 https://github.com/521xueweihan/git-tips
 
+* 基本操作：https://labuladong.gitbook.io/algo/di-wu-zhang-ji-shu-wen-zhang-xi-lie/git-chang-yong-ming-ling
+
+* git 设置全局代理
+
+    ```python
+    git config --global http.proxy 'socks5://127.0.0.1:7890'
+    ```
+
+    
+
 * 设置当前分支为默认提交分支
 
     ```python
     git branch --set-upstream-to=origin/master master
     ```
-
-    
 
 * 提交状态
 
